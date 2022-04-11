@@ -19,8 +19,8 @@ public class Person {
         this.setSurname(surname);
         this.setEmail(email);
     }
-    public Person(String id, String name, String surname, String email){
-        this.setId(Long.getLong(id));
+    public Person(Long id, String name, String surname, String email){
+        this.setId(id);
         this.setName(name);
         this.setSurname(surname);
         this.setEmail(email);

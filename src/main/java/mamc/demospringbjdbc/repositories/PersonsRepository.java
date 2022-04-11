@@ -1,6 +1,7 @@
 package mamc.demospringbjdbc.repositories;
 
 import mamc.demospringbjdbc.models.Person;
+import mamc.demospringbjdbc.models.PersonMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -28,38 +29,37 @@ public class PersonsRepository implements DemoRepository {
 
     @Override
     public int update(Person person) {
-        return 0;
-    }
+        return jdbcTemplate.update("UPDATE people SET name=?, surname=?, email=?",
+                new Object[] { person.getName(), person.getSurname(), person.getEmail() });    }
 
     @Override
     public Person findById(Long id) {
-        Person person = jdbcTemplate.queryForObject("SELECT * FROM people WHERE id=?",         BeanPropertyRowMapper.newInstance(Person.class), id);
+        Person person = (Person) jdbcTemplate.queryForObject("SELECT * FROM people WHERE id=?",
+                new Object[]{id}, new PersonMapper());
         return person;
     }
 
     @Override
     public Person findByName(String name) {
-        Person person = jdbcTemplate.queryForObject("SELECT * FROM people WHERE name=?",         BeanPropertyRowMapper.newInstance(Person.class), name);
+        Person person = (Person) jdbcTemplate.queryForObject("SELECT * FROM people WHERE name=?",         new Object[]{name}, new PersonMapper());
         return person;
     }
 
     @Override
-    public int deleteById(Long id) {
-        return 0;
+    public int deleteById(Long id){
+        return jdbcTemplate.update("DELETE * FROM people WHERE id=?");
     }
 
     @Override
     public List<Person> findAll() {
-        List<Person> personList =  jdbcTemplate.query("SELECT * from people", BeanPropertyRowMapper.newInstance(Person.class));
+        List<Person> personList =  jdbcTemplate.query("SELECT * from people", new Object[]{}, new PersonMapper());
 
        return personList;
 
     }
 
-
-
     @Override
     public int deleteAll() {
-        return 0;
+        return jdbcTemplate.update("DELETE * FROM people");
     }
 }
