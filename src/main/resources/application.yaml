@@ -1,0 +1,20 @@
+
+server:
+  port: 8888
+  servlet.contextPath: '/@name@'
+
+spring:
+  datasource:
+    url: jdbc:h2:mem:testdb
+    username: sa
+    password:
+    driverClassName: org.h2.Driver
+
+  h2:
+    console:
+      enabled: true
+      path: /h2
+
+  sql:
+    init:
+      platform: h2
